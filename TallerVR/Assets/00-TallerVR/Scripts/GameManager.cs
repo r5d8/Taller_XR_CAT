@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.XR.Interaction.Toolkit;
 public class GameManager : MonoBehaviour
 {
     public int maxPaintings = 20;
+    public bool kinematicDrawings = true;
     private int elemCount = 0;
     private Queue<GameObject> drawings = new Queue<GameObject>();
     
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     private GameObject MakeDrawingStatic(GameObject dr)
     {
         GameObject staticDrawing = new GameObject();
+        staticDrawing.transform.position = dr.transform.position;
         TrailRenderer tr = dr.GetComponent<TrailRenderer>();
         LineRenderer lr = staticDrawing.AddComponent<LineRenderer>();
         
@@ -27,7 +29,11 @@ public class GameManager : MonoBehaviour
         lr.material = tr.material;
 
         Vector3[] positions = new Vector3[tr.positionCount];
-        tr.GetPositions(positions); 
+        int nbPos = tr.GetPositions(positions); 
+        for (int i = 0; i < nbPos; ++i)
+        {
+            positions[i] -= dr.transform.position;
+        }
         lr.positionCount = tr.positionCount;
         lr.SetPositions(positions);
 
@@ -38,7 +44,11 @@ public class GameManager : MonoBehaviour
         /***********************************************************************
         * Add the creation of the collider here
         ***********************************************************************/
-
+        Rigidbody rb = staticDrawing.AddComponent<Rigidbody>();
+        rb.isKinematic = kinematicDrawings;
+        //This collider is adjusted to the box encapsulating the drawing
+        BoxCollider cc = staticDrawing.AddComponent<BoxCollider>();
+        XRGrabInteractable gi = staticDrawing.AddComponent<XRGrabInteractable>();
         /***********************************************************************
         ***********************************************************************/
 
@@ -55,7 +65,7 @@ public class GameManager : MonoBehaviour
         Destroy(dr);
 
         elemCount += 1;
-        if (elemCount == maxPaintings) 
+        if (elemCount > maxPaintings) 
         {
             GameObject tobedestroyed = drawings.Dequeue();
             Destroy(tobedestroyed);

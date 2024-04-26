@@ -44,7 +44,6 @@ public class AirDraw : MonoBehaviour
         drawing.transform.parent = null;
 
         //Inform the Game Manager that a new drawing has appeared
-        Debug.Log("Drawig ended. There were " + drawing.GetComponent<TrailRenderer>().positionCount);
         if (drawing.GetComponent<TrailRenderer>().positionCount > 1) 
         {
             drawing.GetComponent<TrailRenderer>().AddPosition(transform.position);
@@ -55,4 +54,13 @@ public class AirDraw : MonoBehaviour
         //Release the variable holding the child
         drawing = null;
     }
+
+    // void OnTriggerEnter(Colldier other)
+    // {
+    //     PaintInfo info = other.GetComponent<PaintInfo>();
+    //     if (info != null)
+    //     {
+            
+    //     }
+    // }
 }
