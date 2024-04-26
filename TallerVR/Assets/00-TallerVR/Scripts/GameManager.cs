@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         lr.useWorldSpace = false;
         
         /***********************************************************************
-        * Add the creation of the collider here
+        * Add the creation of the collider and the addition of the Grab comp.
         ***********************************************************************/
         Rigidbody rb = staticDrawing.AddComponent<Rigidbody>();
         rb.isKinematic = kinematicDrawings;

@@ -9,10 +9,13 @@ public class AirDraw : MonoBehaviour
 
     private GameObject drawing = null;
     private GameManager GM;
+    private Material BaseMaterial;
 
     void Start()
     {
         GM = GameObject.Find("GM").GetComponent<GameManager>();
+
+        BaseMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
 
         paintButton.action.Enable();
         paintButton.action.performed += (ctx) => { StartDrawingLine(); };
@@ -29,8 +32,8 @@ public class AirDraw : MonoBehaviour
         //Configure component
         drawComponent.time = 100000;
         drawComponent.widthMultiplier = 0.015f;
-        drawComponent.material = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-        drawComponent.material.color = new Color(0.0f, 1.0f, 0.8f, 1.0f); //Color(r, g, b, a);
+        drawComponent.material = new Material(BaseMaterial);
+        //drawComponent.material.color = new Color(0.0f, 1.0f, 0.8f, 1.0f); //Color(r, g, b, a);
 
         //Add the new object as a child of the owner of this component,
         //so when it moves, the line is shown.
@@ -55,12 +58,18 @@ public class AirDraw : MonoBehaviour
         drawing = null;
     }
 
-    // void OnTriggerEnter(Colldier other)
-    // {
-    //     PaintInfo info = other.GetComponent<PaintInfo>();
-    //     if (info != null)
-    //     {
-            
-    //     }
-    // }
+    void OnTriggerEnter(Collider other)
+    {
+        PaintInfo info = other.GetComponent<PaintInfo>();
+        if (info != null)
+        {
+            /***********************************************************************
+            * Get the material stored at PaintInfo
+            ***********************************************************************/
+            BaseMaterial.color = info.GetPaintMaterial().color;
+            //BaseMaterial = info.GetPaintMaterial();
+            /***********************************************************************
+            ***********************************************************************/
+        }
+    }
 }
