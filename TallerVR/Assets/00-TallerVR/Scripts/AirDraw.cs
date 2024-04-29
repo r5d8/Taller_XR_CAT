@@ -43,6 +43,8 @@ public class AirDraw : MonoBehaviour
 
     void EndDrawingLine()
     {
+        if (!drawing) return;
+        
         //Stop drawing, by releasing the child
         drawing.transform.parent = null;
 

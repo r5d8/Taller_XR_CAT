@@ -11,6 +11,7 @@ La idea és poder fer, en Realitat Virtual, un petit sistema per a poder dibuixa
 La idea és poder usar aquest projecte per a introdur-se una mica amb Unity i el desenvolupament per a RV.
 
 Teniu en compte que dins de l'editor treballarem amb el material de dins de la carpeta [Assets/00-TallerVR/](./TallerVR/Assets/00-TallerVR/)
+
 ### Creació de l'escena
 1. Obriu Unity, i carregueu l'escena "EscenaTaller" de la carpeta [Scenes](./TallerVR/Assets/00-TallerVR/Scenes/).
 
@@ -52,5 +53,14 @@ Afegiu si voleu aquests components a altres objectes que hagueu afegit. Podeu ca
 
 
 ### Script per dibuixar a l'aire.
+Aquesta part de la pràctica consisteix en que completeu un component que us permeti dibuixar a l'aire. Per això, crearem un nou objecte per cada traç que fem, i farem que segueixi a la ma.
+
+1. Obre el script de [AirDraw.cs](./TallerVR/Assets/00-TallerVR/Scripts/AirDraw.cs).
+2. Completa la funció `StartDrawingLine`:
+    - Crea un nou objecte i guarda'l a la variable `drawing`. Canvia la transformada de posició perquè estigui en la mateixa posició que l'objecte que té aquest component (pots usar el `this` per accedir-hi). Pot ser útil la documentació del component [Transform](https://docs.unity3d.com/ScriptReference/Transform.html).
+    - Afegeix-li un component de `TrailRenderer`. (Aquest component deixa una traça a mesura que es va movent, i es va esborrant amb el temps. Per decidir la traça, es va guardant els punts del recorregut, i pinta una línea entre els punts.)
+    - Modifica les propietats de la traça perquè estigui present un temps llarg (per exemple 100000 segons), la seva amplada es multipliqui per 0.015, i com a material tingui una nova instància del `BaseMaterial`. Pots usar la documentació de les classes [TrailRenderer](https://docs.unity3d.com/ScriptReference/TrailRenderer.html) i [Material](https://docs.unity3d.com/ScriptReference/Material.html).
+    - Fes que `this` sigui el pare del nou objecte. Mira de nou la documentació del component [Transform](https://docs.unity3d.com/ScriptReference/Transform.html).
+
 ### (OPCIONAL) Poder agafar el dibuix
 ### (OPCIONAL) Escollir el color del dibuix
