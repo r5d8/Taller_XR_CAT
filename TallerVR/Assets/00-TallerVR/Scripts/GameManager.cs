@@ -48,7 +48,8 @@ public class GameManager : MonoBehaviour
         rb.isKinematic = kinematicDrawings;
         //This collider is adjusted to the box encapsulating the drawing
         BoxCollider cc = staticDrawing.AddComponent<BoxCollider>();
-        XRGrabInteractable gi = staticDrawing.AddComponent<XRGrabInteractable>();
+        //XRGrabInteractable gi = staticDrawing.AddComponent<XRGrabInteractable>();
+        Grabbable gr = staticDrawing.AddComponent<Grabbable>();
         /***********************************************************************
         ***********************************************************************/
 

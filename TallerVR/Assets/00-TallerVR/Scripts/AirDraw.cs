@@ -16,7 +16,7 @@ public class AirDraw : MonoBehaviour
         GM = GameObject.Find("GM").GetComponent<GameManager>();
 
         BaseMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-
+        BaseMaterial.color = new Color(0,0,0,1);
         paintButton.action.Enable();
         paintButton.action.performed += (ctx) => { StartDrawingLine(); };
         paintButton.action.canceled += (ctx) => { EndDrawingLine(); };
@@ -67,7 +67,7 @@ public class AirDraw : MonoBehaviour
             * Get the material stored at PaintInfo
             ***********************************************************************/
             BaseMaterial.color = info.GetPaintMaterial().color;
-            //BaseMaterial = info.GetPaintMaterial();
+            
             /***********************************************************************
             ***********************************************************************/
         }
