@@ -3,16 +3,24 @@ En aquest repositori podeu trobareu la pràctica per a fer durant el taller.
 
 La idea és poder fer, en Realitat Virtual, un petit sistema per a poder dibuixar en 3D. Com que no hi ha ulleres per a tothom, el projecte inclou el [Meta XR Simulator](https://developer.oculus.com/documentation/unity/xrsim-intro/). Podeu usar-lo per a testejar-lo, i un cop ja ho tingueu, ho exporteu per a provar en les ulleres físiques.
 
-## Explicació general
+## Índex
 
-### El simulador
+- [El simulador](#simulator)
+- [Instruccions](#instruccions)
+    1. [Creació de l'escena](#crear_escena)
+    2. [Crear objectes que es puguin agafar](#grabbable)
+    3. [Script per dibuixar a l'aire](#draw)
+    4. [(OPCIONAL) Poder agafar el dibuix](#grab_draw)
+    5. [(OPCIONAL) Escollir el color del dibuix](#color)
 
-## Instruccions
+## El simulador <a class="anchor" id="simulator"></a>
+
+## Instruccions <a class="anchor" id="instruccions"></a>
 La idea és poder usar aquest projecte per a introdur-se una mica amb Unity i el desenvolupament per a RV.
 
 Teniu en compte que dins de l'editor treballarem amb el material de dins de la carpeta [Assets/00-TallerVR/](./TallerVR/Assets/00-TallerVR/)
 
-### Creació de l'escena
+### Creació de l'escena <a class="anchor" id="crear_escena"></a>
 1. Obriu Unity, i carregueu l'escena "EscenaTaller" de la carpeta [Scenes](./TallerVR/Assets/00-TallerVR/Scenes/).
 
 ![](./Images/01-SeleccioEscena.png)
@@ -31,7 +39,7 @@ Hi ha un pla de base, però podeu afegir més terreny o caviar-lo si voleu.
 
 5. Premeu al "Play", i proveu de moure-us en el simulador usant la teletransportació.
 
-### Crear objectes que es puguin agafar
+### Crear objectes que es puguin agafar <a class="anchor" id="grabbable"></a>
 Per poder agafar un objecte, es necessita:
 - Detectar si un objecte ha col·lisionat amb la mà
 - Mirar si l'objecte amb que s'ha xocat es pot agafar (segurament no voldras que el jugador agafi el terra o la paret i ho mogui de lloc)
@@ -52,7 +60,7 @@ Afegiu si voleu aquests components a altres objectes que hagueu afegit. Podeu ca
 
 
 
-### Script per dibuixar a l'aire.
+### Script per dibuixar a l'aire <a class="anchor" id="draw"></a>
 Aquesta part de la pràctica consisteix en que completeu un component que us permeti dibuixar a l'aire. Per això, crearem un nou objecte per cada traç que fem, i farem que segueixi a la ma.
 
 1. Obre el script de [AirDraw.cs](./TallerVR/Assets/00-TallerVR/Scripts/AirDraw.cs).
@@ -62,5 +70,16 @@ Aquesta part de la pràctica consisteix en que completeu un component que us per
     - Modifica les propietats de la traça perquè estigui present un temps llarg (per exemple 100000 segons), la seva amplada es multipliqui per 0.015, i com a material tingui una nova instància del `BaseMaterial`. Pots usar la documentació de les classes [TrailRenderer](https://docs.unity3d.com/ScriptReference/TrailRenderer.html) i [Material](https://docs.unity3d.com/ScriptReference/Material.html).
     - Fes que `this` sigui el pare del nou objecte. Mira de nou la documentació del component [Transform](https://docs.unity3d.com/ScriptReference/Transform.html).
 
-### (OPCIONAL) Poder agafar el dibuix
-### (OPCIONAL) Escollir el color del dibuix
+Com he dit, aques component desfà el dibuix passat un temps, així que el Game Manager l'agafarà un cop acabat el traç, i crearà un objecte sense límit de vida amb el traç realitzat. Podeu veure el codi de com es fa en el [Game Manager](./TallerVR/Assets/00-TallerVR/Scripts/GameManager.cs). 
+
+### (OPCIONAL) Poder agafar el dibuix <a class="anchor" id="grab_draw"></a>
+Si t'interessa poder agafar els diversos dibuixos i moure'ls per l'espai, serà necessari que facis el següent:
+
+1. Obre el script del [GameManager](./TallerVR/Assets/00-TallerVR/Scripts/GameManager.cs), busca la funció `MakeDrawingStatic`, i modifica'n la part final perquè es pugui agafar:
+>! Afegeix un `BoxColldier`
+
+>! Afegir un `RigidBody` (si vols que NO li afecti la gravetat, posar a true la variable `isKinematic`)
+
+>! Afegir-li un component del tipus `Grabbable`
+
+### (OPCIONAL) Escollir el color del dibuix <a class="anchor" id="color"></a>
