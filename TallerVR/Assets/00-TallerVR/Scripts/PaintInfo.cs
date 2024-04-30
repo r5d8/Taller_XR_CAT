@@ -5,7 +5,7 @@ using UnityEngine;
 public class PaintInfo : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Material BaseMaterial;
+    private Material BaseMaterial;
     public Color paintColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     // public float metallic = 0.5f;
     // public float smoothness = 0.5f;

@@ -75,11 +75,56 @@ Com he dit, aques component desfà el dibuix passat un temps, així que el Game 
 ### (OPCIONAL) Poder agafar el dibuix <a class="anchor" id="grab_draw"></a>
 Si t'interessa poder agafar els diversos dibuixos i moure'ls per l'espai, serà necessari que facis el següent:
 
-1. Obre el script del [GameManager](./TallerVR/Assets/00-TallerVR/Scripts/GameManager.cs), busca la funció `MakeDrawingStatic`, i modifica'n la part final perquè es pugui agafar:
->! Afegeix un `BoxColldier`
+Obre el script del [GameManager](./TallerVR/Assets/00-TallerVR/Scripts/GameManager.cs), busca la funció `MakeDrawingStatic`, i modifica'n la part final perquè es pugui agafar. Endevines quins són els 3 components que has d'afegir?
 
->! Afegir un `RigidBody` (si vols que NO li afecti la gravetat, posar a true la variable `isKinematic`)
+<details>
+  <summary>[SPOILER] - Component 1</summary>
 
->! Afegir-li un component del tipus `Grabbable`
+> BoxColldier
+
+</details>
+
+<details>
+  <summary>[SPOILER] - Component 2</summary>
+
+> RigidBody
+
+(si vols que NO li afecti la gravetat, posar a true la variable `isKinematic`)
+
+</details>
+
+<details>
+  <summary>[SPOILER] - Component 3</summary>
+
+> Grabbable
+
+</details>
+
+
 
 ### (OPCIONAL) Escollir el color del dibuix <a class="anchor" id="color"></a>
+Fins ara heu estat pintatn en negre. Per canviar el col·lor del traç, us he deixat preparat un sistema: haureu de col·locar els pots de pintura per l'escena, triar-ne el seu color, i quan fiqueu la ma al pot de pintura, les següent traces seràn del nou color.
+
+1. Aneu a la carpeta de [Prefabs](./TallerVR/Assets/00-TallerVR/Prefabs/) i arrastreu a la escena algun `PintureCan`.
+2. Busqueu el seu component de `PaintInfo`, i escolliu-ne el color que volgueu per cada pot.
+3. Obriu el script [AirDraw.cs](./TallerVR/Assets/00-TallerVR/Scripts/AirDraw.cs).
+4. Aneu a la funció de `OnTriggerEnter`, i afegiu el codi per detectar si heu tocat un pot de pintura. Podeu detectar si ho és mirant si té el component `PintureInfo`. (L'element amb què heu col·lisionat és el `other`).
+
+<details>
+  <summary>[SPOILER] - Detecció de col·lisió amb el pot</summary>
+
+```c#
+void OnTriggerEnter(Collider other)
+    {
+        PaintInfo info = other.GetComponent<PaintInfo>();
+        if (info != null)
+        {
+            // ...
+        }
+    }
+```
+
+</details>
+
+5. En cas de que l'element detectat sigui un pot de pintura, agafa'n el color. Pots mirar el codi del component [PaintInfo](./TallerVR/Assets/00-TallerVR/Scripts/PaintInfo.cs) per saber com aconseguir el material de la pintura.
+
