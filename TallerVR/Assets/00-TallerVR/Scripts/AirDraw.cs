@@ -38,7 +38,6 @@ public class AirDraw : MonoBehaviour
         //Add the new object as a child of the owner of this component,
         //so when it moves, the line is shown.
         drawing.transform.parent = this.transform;
-
     }
 
     void EndDrawingLine()

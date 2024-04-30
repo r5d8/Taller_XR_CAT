@@ -20,7 +20,7 @@ La idea és poder usar aquest projecte per a introdur-se una mica amb Unity i el
 
 Teniu en compte que dins de l'editor treballarem amb el material de dins de la carpeta [Assets/00-TallerVR/](./TallerVR/Assets/00-TallerVR/)
 
-### Creació de l'escena <a class="anchor" id="crear_escena"></a>
+### 1 - Creació de l'escena <a class="anchor" id="crear_escena"></a>
 1. Obriu Unity, i carregueu l'escena "EscenaTaller" de la carpeta [Scenes](./TallerVR/Assets/00-TallerVR/Scenes/).
 
 ![](./Images/01-SeleccioEscena.png)
@@ -39,7 +39,7 @@ Hi ha un pla de base, però podeu afegir més terreny o caviar-lo si voleu.
 
 5. Premeu al "Play", i proveu de moure-us en el simulador usant la teletransportació.
 
-### Crear objectes que es puguin agafar <a class="anchor" id="grabbable"></a>
+### 2 - Crear objectes que es puguin agafar <a class="anchor" id="grabbable"></a>
 Per poder agafar un objecte, es necessita:
 - Detectar si un objecte ha col·lisionat amb la mà
 - Mirar si l'objecte amb que s'ha xocat es pot agafar (segurament no voldras que el jugador agafi el terra o la paret i ho mogui de lloc)
@@ -60,7 +60,7 @@ Afegiu si voleu aquests components a altres objectes que hagueu afegit. Podeu ca
 
 
 
-### Script per dibuixar a l'aire <a class="anchor" id="draw"></a>
+### 3 - Script per dibuixar a l'aire <a class="anchor" id="draw"></a>
 Aquesta part de la pràctica consisteix en que completeu un component que us permeti dibuixar a l'aire. Per això, crearem un nou objecte per cada traç que fem, i farem que segueixi a la ma.
 
 1. Obre el script de [AirDraw.cs](./TallerVR/Assets/00-TallerVR/Scripts/AirDraw.cs).
@@ -70,9 +70,32 @@ Aquesta part de la pràctica consisteix en que completeu un component que us per
     - Modifica les propietats de la traça perquè estigui present un temps llarg (per exemple 100000 segons), la seva amplada es multipliqui per 0.015, i com a material tingui una nova instància del `BaseMaterial`. Pots usar la documentació de les classes [TrailRenderer](https://docs.unity3d.com/ScriptReference/TrailRenderer.html) i [Material](https://docs.unity3d.com/ScriptReference/Material.html).
     - Fes que `this` sigui el pare del nou objecte. Mira de nou la documentació del component [Transform](https://docs.unity3d.com/ScriptReference/Transform.html).
 
-Com he dit, aques component desfà el dibuix passat un temps, així que el Game Manager l'agafarà un cop acabat el traç, i crearà un objecte sense límit de vida amb el traç realitzat. Podeu veure el codi de com es fa en el [Game Manager](./TallerVR/Assets/00-TallerVR/Scripts/GameManager.cs). 
+Com he dit, aques component desfà el dibuix passat un temps, així que el Game Manager l'agafarà un cop acabat el traç, i crearà un objecte sense límit de vida amb el traç realitzat (usant un component de `LineRenderer` en comptes del `TraceRenderer`). Podeu veure el codi de com es fa en el [Game Manager](./TallerVR/Assets/00-TallerVR/Scripts/GameManager.cs). 
 
-### (OPCIONAL) Poder agafar el dibuix <a class="anchor" id="grab_draw"></a>
+<details>
+    <summary>[SPOILER] - Code for drawing the line</summary>
+
+```c#
+void StartDrawingLine()
+{
+    //Create Game Object and component
+    drawing = new GameObject();
+    drawing.transform.position = this.transform.position;
+    TrailRenderer drawComponent = drawing.AddComponent<TrailRenderer>();
+    
+    //Configure component
+    drawComponent.time = 100000;
+    drawComponent.widthMultiplier = 0.015f;
+    drawComponent.material = new Material(BaseMaterial);
+
+    /*Add the new object as a child of the owner of this component,
+      so when it moves, the line is rendered.*/
+    drawing.transform.parent = this.transform;
+}
+```
+</details>
+
+### 4 - (OPCIONAL) Poder agafar el dibuix <a class="anchor" id="grab_draw"></a>
 Si t'interessa poder agafar els diversos dibuixos i moure'ls per l'espai, serà necessari que facis el següent:
 
 Obre el script del [GameManager](./TallerVR/Assets/00-TallerVR/Scripts/GameManager.cs), busca la funció `MakeDrawingStatic`, i modifica'n la part final perquè es pugui agafar. Endevines quins són els 3 components que has d'afegir?
@@ -99,14 +122,31 @@ Obre el script del [GameManager](./TallerVR/Assets/00-TallerVR/Scripts/GameManag
 > Grabbable
 
 </details>
+</p>
 
 
+Aquest cop els component no es poden afegir des de l'inspector, perquè l'objecte encara no està creat. Els hauràs d'afegir per codi.
 
-### (OPCIONAL) Escollir el color del dibuix <a class="anchor" id="color"></a>
+<details>
+  <summary>[SPOILER] - Codi d'afegir els components</summary>
+
+```c#
+Rigidbody rb = staticDrawing.AddComponent<Rigidbody>();
+rb.isKinematic = kinematicDrawings;
+
+//This collider is adjusted to the box encapsulating the drawing
+BoxCollider cc = staticDrawing.AddComponent<BoxCollider>();
+
+Grabbable gr = staticDrawing.AddComponent<Grabbable>();
+```
+</details>
+
+### 5 - (OPCIONAL) Escollir el color del dibuix <a class="anchor" id="color"></a>
 Fins ara heu estat pintatn en negre. Per canviar el col·lor del traç, us he deixat preparat un sistema: haureu de col·locar els pots de pintura per l'escena, triar-ne el seu color, i quan fiqueu la ma al pot de pintura, les següent traces seràn del nou color.
 
 1. Aneu a la carpeta de [Prefabs](./TallerVR/Assets/00-TallerVR/Prefabs/) i arrastreu a la escena algun `PintureCan`.
 2. Busqueu el seu component de `PaintInfo`, i escolliu-ne el color que volgueu per cada pot.
+![](./Images/PintureCans.png)
 3. Obriu el script [AirDraw.cs](./TallerVR/Assets/00-TallerVR/Scripts/AirDraw.cs).
 4. Aneu a la funció de `OnTriggerEnter`, i afegiu el codi per detectar si heu tocat un pot de pintura. Podeu detectar si ho és mirant si té el component `PintureInfo`. (L'element amb què heu col·lisionat és el `other`).
 
@@ -115,16 +155,32 @@ Fins ara heu estat pintatn en negre. Per canviar el col·lor del traç, us he de
 
 ```c#
 void OnTriggerEnter(Collider other)
+{
+    PaintInfo info = other.GetComponent<PaintInfo>();
+    if (info != null)
     {
-        PaintInfo info = other.GetComponent<PaintInfo>();
-        if (info != null)
-        {
-            // ...
-        }
+        // ...
     }
+}
 ```
 
 </details>
+</p>
 
-5. En cas de que l'element detectat sigui un pot de pintura, agafa'n el color. Pots mirar el codi del component [PaintInfo](./TallerVR/Assets/00-TallerVR/Scripts/PaintInfo.cs) per saber com aconseguir el material de la pintura.
+5. En cas de que l'element detectat sigui un pot de pintura, agafa'n el color. Pots mirar el codi del component [PaintInfo](./TallerVR/Assets/00-TallerVR/Scripts/PaintInfo.cs) i la documentació de [Material](https://docs.unity3d.com/ScriptReference/Material.html) per saber com aconseguir el color de la pintura.
 
+<details>
+  <summary>[SPOILER] - Canvi de color</summary>
+
+```c#
+void OnTriggerEnter(Collider other)
+{
+    PaintInfo info = other.GetComponent<PaintInfo>();
+    if (info != null)
+    {
+        BaseMaterial.color = info.GetPaintMaterial().color;
+    }
+}
+```
+
+</details>
