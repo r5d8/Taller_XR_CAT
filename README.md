@@ -1,5 +1,5 @@
 # Taller de Realitat Virtual i Augmentada
-En aquest repositori podeu trobareu la pràctica per a fer durant el taller.
+En aquest repositori trobareu la pràctica per a fer durant el taller.
 
 La idea és poder fer, en Realitat Virtual, un petit sistema per a poder dibuixar en 3D. Com que no hi ha ulleres per a tothom, el projecte inclou el [Meta XR Simulator](https://developer.oculus.com/documentation/unity/xrsim-intro/). Podeu usar-lo per a testejar-lo, i un cop ja ho tingueu, ho exporteu per a provar en les ulleres físiques.
 
@@ -14,6 +14,22 @@ La idea és poder fer, en Realitat Virtual, un petit sistema per a poder dibuixa
     5. [(OPCIONAL) Escollir el color del dibuix](#color)
 
 ## El simulador <a class="anchor" id="simulator"></a>
+El [Meta XR Simulator](https://developer.oculus.com/documentation/unity/xrsim-intro/) s'obre com una pantalla a part de la del Unity, i us permet interactuar com si tinguéssiu les ulleres posades. A continuació teniu els controls essencials (els que aprlen del controlador, són pel que està activat, que per defecte és el dret).
+
+Controls essencials:
+- Podeu navegar com si fos un videojoc, usant les tecles `W`, `A`, `S`, `D`.
+- Per rotat la càmera, mantingueu `click dret` del ratolí en algun punt del render, i moveu-lo. Alternativament, podeu fer doble `click dret`, per no haver d'estar mantenint premut el botó (i dos mes per alliberar de nou el punter).
+- Premeu el `click esquerra` o `T` per fer servir l'acció del ***trigger button*** del comandament.
+- Premeu `U` per fer servir l'acció del ***grab button*** del comandament.
+- Podeu activar 4 direccions del ***thumbstick*** del comandament usant les tecles `Y`, `G`, `H`, `J`, que corresponen a moure el *thumbstick* en les direccions $\uparrow$, $\leftarrow$, $\downarrow$, $\rightarrow$ respectivament. 
+- Per teletransportar-te, utilitza el `thumbstick up` (o `Y` en el simulador). Mantent-lo premut per mostrar la zona on moure's. Mou el comandament per canviarla. Deixa anar el botó per aparèixer al lloc indicat. 
+
+![](./Images/Controller.png)
+
+Controls adicionals:
+- Per pujar i baixar, feu sercir els botons `R` i `F` respectivament.
+- Per rotar la càmera en *roll*, feu servir els botons `Q` i `E`.
+
 
 ## Instruccions <a class="anchor" id="instruccions"></a>
 La idea és poder usar aquest projecte per a introdur-se una mica amb Unity i el desenvolupament per a RV.
