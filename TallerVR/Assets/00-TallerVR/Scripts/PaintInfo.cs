@@ -33,7 +33,7 @@ public class PaintInfo : MonoBehaviour
     {
         mr = this.GetComponent<MeshRenderer>();
         
-        if (!BaseMaterial) BaseMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        if (!BaseMaterial) BaseMaterial = new Material((Material)Resources.Load("MAT_LitURP", typeof(Material)));//new Material(Shader.Find("Universal Render Pipeline/Lit"));
         else BaseMaterial = new Material(BaseMaterial);
 
         BaseMaterial.color = paintColor;

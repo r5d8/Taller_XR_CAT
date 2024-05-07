@@ -15,7 +15,7 @@ public class AirDraw : MonoBehaviour
     {
         GM = GameObject.Find("GM").GetComponent<GameManager>();
 
-        BaseMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        BaseMaterial = new Material((Material)Resources.Load("MAT_UnlitURP", typeof(Material)));//Shader.Find("Universal Render Pipeline/Unlit"));
         BaseMaterial.color = new Color(0,0,0,1);
         paintButton.action.Enable();
         paintButton.action.performed += (ctx) => { StartDrawingLine(); };

@@ -19,6 +19,7 @@ public class GrabObjects : MonoBehaviour
                 grabbedObject = grabables[0];
                 //grabbedObject.transform.SetParent(gameObject.transform);
                 grabbedObject.GetComponent<Grabbable>().addMaster(gameObject);
+                
             }
             
         };
@@ -29,7 +30,6 @@ public class GrabObjects : MonoBehaviour
                 //grabbedObject.transform.SetParent(null);
                 grabbedObject.GetComponent<Grabbable>().removeMaster(gameObject);
                 grabbedObject = null;
-                
             }
             
         };

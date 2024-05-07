@@ -10,6 +10,8 @@ public class Grabbable : MonoBehaviour
 
     //public bool quatDouble = false;
     private int countMasters = 0;
+
+    private int isKinematicStatus = -1;
     
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,12 @@ public class Grabbable : MonoBehaviour
         rots.Add(master.transform.rotation);
         poss.Add(master.transform.position);
         countMasters++;
+
+        if (isKinematicStatus == -1)
+        {
+            isKinematicStatus = this.GetComponent<Rigidbody>().isKinematic ? 1 : 0;
+            this.GetComponent<Rigidbody>().isKinematic = true;
+        }
     }
 
     public void removeMaster(GameObject master) {
@@ -61,5 +69,11 @@ public class Grabbable : MonoBehaviour
         rots.RemoveAt(loc);
         poss.RemoveAt(loc);
         countMasters--;
+
+        if (countMasters == 0 && isKinematicStatus != -1)
+        {
+            this.GetComponent<Rigidbody>().isKinematic = isKinematicStatus == 1;
+            isKinematicStatus = -1;
+        }
     }
 }
