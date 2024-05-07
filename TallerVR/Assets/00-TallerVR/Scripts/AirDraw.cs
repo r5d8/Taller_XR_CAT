@@ -33,6 +33,7 @@ public class AirDraw : MonoBehaviour
         drawComponent.time = 100000;
         drawComponent.widthMultiplier = 0.015f;
         drawComponent.material = new Material(BaseMaterial);
+        drawComponent.minVertexDistance = 0.01f;
         //drawComponent.material.color = new Color(0.0f, 1.0f, 0.8f, 1.0f); //Color(r, g, b, a);
 
         //Add the new object as a child of the owner of this component,

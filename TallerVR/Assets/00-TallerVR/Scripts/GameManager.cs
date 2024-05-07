@@ -9,10 +9,12 @@ public class GameManager : MonoBehaviour
     private int elemCount = 0;
     private Queue<GameObject> drawings = new Queue<GameObject>();
     
+    private int DrawLayer;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        DrawLayer = LayerMask.NameToLayer("Drawings");
     }
 
     //Pre: dr has a TrailRenderer component
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour
     private GameObject MakeDrawingStatic(GameObject dr)
     {
         GameObject staticDrawing = new GameObject();
+        staticDrawing.layer = DrawLayer;
         staticDrawing.transform.position = dr.transform.position;
         TrailRenderer tr = dr.GetComponent<TrailRenderer>();
         LineRenderer lr = staticDrawing.AddComponent<LineRenderer>();
