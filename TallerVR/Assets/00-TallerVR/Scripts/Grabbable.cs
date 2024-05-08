@@ -47,6 +47,10 @@ public class Grabbable : MonoBehaviour
     }
 
     public void addMaster(GameObject master) {
+        for (int i = 0; i < countMasters; ++i) {
+            removeMaster(masters[i]);
+        } 
+
         masters.Add(master);
         rots.Add(master.transform.rotation);
         poss.Add(master.transform.position);
@@ -60,10 +64,12 @@ public class Grabbable : MonoBehaviour
     }
 
     public void removeMaster(GameObject master) {
-        int loc = 0;
+        int loc = -1;
         for (int i = 0; i < countMasters; ++i) {
             if (master == masters[i]) loc = i;
         }
+
+        if (loc == -1) return;
 
         masters.RemoveAt(loc);
         rots.RemoveAt(loc);
