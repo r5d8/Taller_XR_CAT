@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Pre: dr has a TrailRenderer component
-    //Post:
+    //Post: an object with a LineRenderer component is created, and it takes the shape of the input
     private GameObject MakeDrawingStatic(GameObject dr)
     {
         GameObject staticDrawing = new GameObject();
@@ -44,16 +44,13 @@ public class GameManager : MonoBehaviour
         //object, the line rendered also moves.
         lr.useWorldSpace = false;
         
+        
+        
         /***********************************************************************
         * Add the creation of the collider and the addition of the Grab comp.
         ***********************************************************************/
-        Rigidbody rb = staticDrawing.AddComponent<Rigidbody>();
-        rb.isKinematic = kinematicDrawings;
         
-        //This collider is adjusted to the box encapsulating the drawing
-        BoxCollider cc = staticDrawing.AddComponent<BoxCollider>();
         
-        Grabbable gr = staticDrawing.AddComponent<Grabbable>();
         /***********************************************************************
         ***********************************************************************/
 
@@ -76,11 +73,5 @@ public class GameManager : MonoBehaviour
             Destroy(tobedestroyed);
             elemCount -= 1;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

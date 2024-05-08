@@ -24,21 +24,7 @@ public class AirDraw : MonoBehaviour
 
     void StartDrawingLine()
     {
-        //Create Game Object and component
-        drawing = new GameObject();
-        drawing.transform.position = this.transform.position;
-        TrailRenderer drawComponent = drawing.AddComponent<TrailRenderer>();
-        
-        //Configure component
-        drawComponent.time = 100000;
-        drawComponent.widthMultiplier = 0.015f;
-        drawComponent.material = new Material(BaseMaterial);
-        drawComponent.minVertexDistance = 0.01f;
-        //drawComponent.material.color = new Color(0.0f, 1.0f, 0.8f, 1.0f); //Color(r, g, b, a);
 
-        //Add the new object as a child of the owner of this component,
-        //so when it moves, the line is shown.
-        drawing.transform.parent = this.transform;
     }
 
     void EndDrawingLine()
@@ -62,16 +48,6 @@ public class AirDraw : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        PaintInfo info = other.GetComponent<PaintInfo>();
-        if (info != null)
-        {
-            /***********************************************************************
-            * Get the material stored at PaintInfo
-            ***********************************************************************/
-            BaseMaterial.color = info.GetPaintMaterial().color;
-            
-            /***********************************************************************
-            ***********************************************************************/
-        }
+        
     }
 }
